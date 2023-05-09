@@ -479,7 +479,8 @@ Navigator.push(
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     loginWithPhone();
-                                  }),
+                                  }
+                                  ),
                           ],
                         ),
                       )
