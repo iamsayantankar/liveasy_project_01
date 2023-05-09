@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy_project_01/first_page.dart';
 import 'package:liveasy_project_01/home2.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MySplash extends StatefulWidget {
   const MySplash({Key? key}) : super(key: key);
