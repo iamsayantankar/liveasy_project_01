@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:liveasy_project_01/home2.dart';
 import 'package:liveasy_project_01/phone_auth.dart';
 
 class FirstPage extends StatefulWidget {
@@ -11,6 +13,32 @@ class FirstPage extends StatefulWidget {
 
 class _FirstPageState extends State<FirstPage> {
   String myLanguage = "English";
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? user;
+
+  void checkUser() {
+    setState(() {
+      user = FirebaseAuth.instance.currentUser;
+    });
+
+    if (user!=null){
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const Home()),
+      );
+    }
+  }
+  @override
+  void initState() {
+
+    checkUser();
+
+    // TODO: implement initState
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {

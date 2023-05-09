@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:liveasy_project_01/home2.dart';
+import 'package:liveasy_project_01/utils/sharedPref.dart';
+import 'package:liveasy_project_01/utils/toast.dart';
 
 class ChoseType extends StatefulWidget {
   const ChoseType({Key? key}) : super(key: key);
@@ -208,17 +211,27 @@ class _ChoseTypeState extends State<ChoseType> {
               height: 10,
             ),
             GestureDetector(
+
+
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ChoseType()),
-                );
+                if(selectedRadio==1){
+                  saveText("ac_type", "Shipper");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Home()),
+                  );
+                }else if(selectedRadio==2){
+                  saveText("ac_type", "Transporter");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Home()),
+                  );
+                }else{
+                  warningToast("Error...", "Select any one...", context);
+                }
 
-                setState(() {
-
-                });
-                print("_otp");
               },
               child: Container(
                 color: const Color(0xFF2E3B62),

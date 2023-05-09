@@ -1,8 +1,16 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:liveasy_project_01/home.dart';
+import 'package:liveasy_project_01/utils/internet_check.dart';
+import 'package:liveasy_project_01/utils/no_internet.dart';
+import 'package:liveasy_project_01/utils/toast.dart';
 
 class MobileNumber extends StatefulWidget {
   const MobileNumber({Key? key}) : super(key: key);
@@ -80,7 +88,7 @@ class _MobileNumberState extends State<MobileNumber> {
                         height: 10,
                       ),
                       const Text(
-                        "You’ll receive a 4 digit code\nto verify next..",
+                        "You’ll receive a 6 digit code\nto verify next..",
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         style: TextStyle(
@@ -147,6 +155,8 @@ class _MobileNumberState extends State<MobileNumber> {
                                     phoneNumber: phoneNumber,
                                   )),
                             );
+                          }else{
+                            warningToast("Warning...", "Enter valid phone number", context);
                           }
                         },
                         child: Container(
@@ -239,6 +249,125 @@ class _MobileNumberOTPState extends State<MobileNumberOTP> {
 
   String? _otp;
 
+  bool resendOTP = false;
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? user;
+  String verificationID = "";
+
+  void startTimer(int seconds) {
+    const oneSec = Duration(seconds: 1);
+    Timer.periodic(
+      oneSec,
+          (Timer myTimer) {
+        if (seconds == 0) {
+          setState(() {
+            resendOTP = true;
+            myTimer.cancel();
+          });
+        } else {
+          setState(() {
+            seconds--;
+          });
+        }
+      },
+    );
+  }
+
+  void loginWithPhone() async {
+
+    // check internet connection...
+    bool checkMyInternet =
+    await checkInternet();
+    if (checkMyInternet == false) {
+      if (context.mounted) {
+        failureToast(
+            " 😭  😭 ",
+            "No Internet Connection.",
+            context);
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+              builder: (context) =>
+              const NoInternetConnScreen()),
+        );}
+      return;
+    }
+    auth.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await auth.signInWithCredential(credential).then((value) {});
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        log(e.message.toString());
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        startTimer(60);
+        setState(() {
+          resendOTP = false;
+          verificationID = verificationId;
+        });
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
+
+  void verifyOTP() async {
+
+    // check internet connection...
+    bool checkMyInternet =
+    await checkInternet();
+    if (checkMyInternet == false) {
+      if (context.mounted) {
+        failureToast(
+            " 😭  😭 ",
+            "No Internet Connection.",
+            context);
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+              builder: (context) =>
+              const NoInternetConnScreen()),
+        );}
+      return;
+    }
+
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationID, smsCode: _otp!);
+
+    await auth.signInWithCredential(credential).then(
+          (value) {
+        setState(() {
+          user = FirebaseAuth.instance.currentUser;
+        });
+      },
+    ).whenComplete(
+          () async {
+        if (user != null) {
+          successToast("Success...", "Valid login...", context);
+Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ChoseType()),
+          );
+        } else {
+          failureToast("Error...", "OTP not valid.", context);
+        }
+      },
+    );
+  }
+
+  @override
+  void initState() {
+
+
+
+    loginWithPhone();
+
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double widthThis = MediaQuery.of(context).size.width;
@@ -328,7 +457,8 @@ class _MobileNumberOTPState extends State<MobileNumberOTP> {
                       const SizedBox(
                         height: 10,
                       ),
-                      RichText(
+                      resendOTP
+                      ? RichText(
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         text: TextSpan(
@@ -350,17 +480,17 @@ class _MobileNumberOTPState extends State<MobileNumberOTP> {
                                   ..onTap = () {}),
                           ],
                         ),
+                      )
+                      : const SizedBox(
+                        height: 0,
                       ),
+
                       const SizedBox(
                         height: 10,
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ChoseType()),
-                          );
+
 
                           setState(() {
                             _otp = _fieldOne.text +
@@ -370,8 +500,12 @@ class _MobileNumberOTPState extends State<MobileNumberOTP> {
                                 _fieldFive.text +
                                 _fieldSix.text;
                           });
-                          print("_otp");
-                          print(_otp);
+
+                          if(_otp!.length==6){
+                            verifyOTP();
+                          }else{
+                            warningToast("Warning...", "Enter OTP", context);
+                          }
                         },
                         child: Container(
                           color: const Color(0xFF2E3B62),
