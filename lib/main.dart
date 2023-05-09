@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:liveasy_project_01/first_page.dart';
 import 'package:liveasy_project_01/splash.dart';
 import 'package:liveasy_project_01/utils/services/global.dart';
 

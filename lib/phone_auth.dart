@@ -114,12 +114,6 @@ class _MobileNumberState extends State<MobileNumber> {
                               setState(() {
                                 phoneNumber = number.phoneNumber.toString();
                               });
-                              print("number.phoneNumber");
-                              print(number.phoneNumber);
-                            },
-                            onInputValidated: (bool value) {
-                              print("value");
-                              print(value);
                             },
                             selectorConfig: const SelectorConfig(
                               selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
@@ -135,7 +129,6 @@ class _MobileNumberState extends State<MobileNumber> {
                                 signed: true, decimal: false),
                             inputBorder: const OutlineInputBorder(),
                             onSaved: (PhoneNumber number) {
-                              print('On Saved: $number');
                             },
                           ),
                         ),
@@ -145,8 +138,6 @@ class _MobileNumberState extends State<MobileNumber> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print(phoneNumber);
-                          print(phoneNumber.runtimeType);
                           if (phoneNumber != "" && phoneNumber.length > 8) {
                             Navigator.push(
                               context,
@@ -185,7 +176,7 @@ class _MobileNumberState extends State<MobileNumber> {
                   child: Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 216,
                         width: widthThis,
                         // color: const Color(0xFF93D2F3),
@@ -384,7 +375,7 @@ Navigator.push(
           child: SingleChildScrollView(
             child: Column(
               children:  <Widget>[
-                Container(
+                SizedBox(
                   height: heightThis - heightTopThis - heightBottomThis - 216,
                   child: Column(
                     children: [
@@ -541,7 +532,7 @@ Navigator.push(
                   child: Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 216,
                         width: widthThis,
                         // color: const Color(0xFF93D2F3),
@@ -588,7 +579,7 @@ class OtpInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 45,
       width: 45,
       child: TextField(

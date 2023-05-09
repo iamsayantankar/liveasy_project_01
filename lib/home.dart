@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:liveasy_project_01/home2.dart';
@@ -22,10 +21,6 @@ class _ChoseTypeState extends State<ChoseType> {
   Widget build(BuildContext context) {
 
     double widthThis = MediaQuery.of(context).size.width;
-    double heightThis = MediaQuery.of(context).size.height;
-
-    double heightTopThis = MediaQuery.of(context).padding.top;
-    double heightBottomThis = MediaQuery.of(context).padding.bottom;
 
 
     return Scaffold(

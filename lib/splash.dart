@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:liveasy_project_01/first_page.dart';
-import 'package:liveasy_project_01/home2.dart';
-import 'package:liveasy_project_01/utils/services/global.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MySplash extends StatefulWidget {
@@ -26,21 +23,21 @@ class _MySplashState extends State<MySplash> {
       user = FirebaseAuth.instance.currentUser;
     });
 
-    if (user != null) {
-      if (context.mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Home()),
-        );
-      }
-    } else {
-      if (context.mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const FirstPage()),
-        );
-      }
-    }
+    // if (user != null) {
+    //   if (context.mounted) {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(builder: (context) => const Home()),
+    //     );
+    //   }
+    // } else {
+    //   if (context.mounted) {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(builder: (context) => const FirstPage()),
+    //     );
+    //   }
+    // }
   }
 
   @override
@@ -53,7 +50,6 @@ class _MySplashState extends State<MySplash> {
 
   @override
   Widget build(BuildContext context) {
-    double widthThis = MediaQuery.of(context).size.width;
     double heightThis = MediaQuery.of(context).size.height;
 
     double heightTopThis = MediaQuery.of(context).padding.top;
@@ -91,7 +87,6 @@ class _MySplashState extends State<MySplash> {
                         ),
                         RichText(
                           textAlign: TextAlign.center,
-                          maxLines: 2,
                           text: TextSpan(
                             text: 'This application use for only education and project purpose. Make by Sayantan Kar. Available at github: ',
                             style: const TextStyle(

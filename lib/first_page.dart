@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:liveasy_project_01/home2.dart';
 import 'package:liveasy_project_01/phone_auth.dart';
 
 class FirstPage extends StatefulWidget {
@@ -135,7 +133,7 @@ class _FirstPageState extends State<FirstPage> {
                   child: Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 100,
                         width: widthThis,
                         // color: const Color(0xFF93D2F3),
@@ -145,7 +143,7 @@ class _FirstPageState extends State<FirstPage> {
                           fit: BoxFit.fill,
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: widthThis,
                         height: 100,
                         // color: const Color(0xFF2E3B62),
