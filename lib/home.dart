@@ -71,8 +71,9 @@ class _ChoseTypeState extends State<ChoseType> {
                       value: 1,
                       groupValue: selectedRadio,
                       onChanged: (val) {
-                        print("Radio Tile pressed $val");
-                        // setSelectedRadioTile(val);
+                        setState(() {
+                          selectedRadio = 1;
+                        });
                       },
                       activeColor: Colors.red,
                     ),
@@ -149,8 +150,9 @@ class _ChoseTypeState extends State<ChoseType> {
                       value: 2,
                       groupValue: selectedRadio,
                       onChanged: (val) {
-                        print("Radio Tile pressed $val");
-                        // setSelectedRadioTile(val);
+                        setState(() {
+                          selectedRadio = 2;
+                        });
                       },
                       activeColor: Colors.red,
                     ),

@@ -477,7 +477,9 @@ Navigator.push(
                                   fontSize: 16,
                                 ),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () {}),
+                                  ..onTap = () {
+                                    loginWithPhone();
+                                  }),
                           ],
                         ),
                       )
